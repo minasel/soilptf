@@ -7,12 +7,11 @@
 #'   only several of which are used within this package.
 #' \describe{
 #'   \item{TextureClass}{the name of the texture class (one of Clay, C loam, Loam, L Sand, Sand,
-#'   S C L, S Clay, Si C L, Si Clay, Si Loam, Silt, S loam)}
+#'         S C L, S Clay, Si C L, Si Clay, Si Loam, Silt, S loam)}
 #'   \item{N}{the number of observations on which the parameters are based}
 #'   \item{variable}{the variable of interest (one of theta_r, theta_s, log_alpha, log_n, Ks, K0, L)}
 #'   \item{value}{the value of the parameter}
 #'   \item{stdev}{the uncertainty associated with the value measurement (one standard deviation)}
-#'   \item{TC ID}{IDs that may be used outside of EC}
 #' }
 #'
 #' @references
