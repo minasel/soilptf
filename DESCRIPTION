@@ -1,6 +1,6 @@
 Package: soilptf
 Type: Package
-Title: Implement ROSETTA pedotransfer functions in R
+Title: Implements ROSETTA pedotransfer functions in R
 Version: 0.1.0
 Author: Dewey Dunnington <dewey@fishandwhistle.net>
 Maintainer: Dewey Dunnington <dewey@fishandwhistle.net>
