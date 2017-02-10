@@ -4,7 +4,7 @@ avs <- matrix(avs, byrow = TRUE, ncol = 16)
 avs <- as.data.frame(avs)
 vals <- avs[c(1, 2, 3, 5, 7, 9, 11, 13, 15)]
 errs <- avs[c(1, 2, 4, 6, 8, 10, 12, 16, 16)]
-labels <- c("TextureClass", "N", "theta_r", "theta_s", "log_alpha", "log_n", "Ks", "K0", "L")
+labels <- c("TextureClass", "N", "theta_r", "theta_s", "log_alpha", "log_n", "ln_Ks", "ln_sK0", "L")
 names(vals) <- labels
 names(errs) <- labels
 
@@ -21,4 +21,4 @@ rosettaSoilClass <- cbind(reshape2::melt(vals, id.vars=c("TextureClass", "N")),
 
 rosettaSoilClass <- rosettaSoilClass[order(rosettaSoilClass$TextureClass, rosettaSoilClass$variable),]
 
-devtools::use_data(rosettaSoilClass)
+devtools::use_data(rosettaSoilClass, overwrite = TRUE)

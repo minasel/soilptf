@@ -4,30 +4,38 @@
 \name{rosettaSoilClass}
 \alias{rosettaSoilClass}
 \title{Average values for soil texture classes based on the ROSETTA model}
-\format{A data frame with 8735 rows and  19 variables. There are many columns,
-  only several of which are used within this package.
+\format{A data frame with 84 rows and  5 variables.
 \describe{
-  \item{TextureClass}{the name of the texture class (one of Clay, C loam, Loam, L Sand, Sand,
+  \item{TextureClass}{The name of the texture class (one of Clay, C loam, Loam, L Sand, Sand,
         S C L, S Clay, Si C L, Si Clay, Si Loam, Silt, S loam)}
   \item{N}{the number of observations on which the parameters are based}
-  \item{variable}{the variable of interest (one of theta_r, theta_s, log_alpha, log_n, Ks, K0, L)}
-  \item{value}{the value of the parameter}
-  \item{stdev}{the uncertainty associated with the value measurement (one standard deviation)}
+  \item{variable}{the variable of interest (one of theta_r, theta_s, log_alpha, log_n, ln_Ks, ln_K0, L)}
+  \item{value}{The value of the parameter.}
+  \item{stdev}{The uncertainty associated with the value measurement (one standard deviation)}
 }}
 \source{
-\url{https://www.cals.arizona.edu/research/rosetta/download/rosetta.pdf}
+\url{https://www.cals.arizona.edu/research/rosetta/}
 }
 \usage{
 rosettaSoilClass
 }
 \description{
-These values are average values for theta_r, theta_s, log_alpha, log_n, Ks, K0, L
-(including uncertainty) by soil textural class. They are provided
+These values are average values for theta_r, theta_s, log_alpha, log_n, ln_Ks, ln_K0, L
+(including uncertainty) by soil textural class. The following variables are covered:
+\describe{
+  \item{theta_r}{Residual water content (cm3/cm3)}
+  \item{theta_s}{Saturated water content (cm3/cm3)}
+  \item{log_alpha}{The (log10 of the) alpha parameter in the Mualem (1976) model (log 1/cm)}
+  \item{log_n}{The (log10 of the) n parameter in the Mualem (1976) model (log unitless)}
+  \item{ln_Ks}{The (natural log of the) saturated conductivity (ln cm/day)}
+  \item{ln_K0}{The (natural log of the) K0 conductivity (ln cm/day)}
+  \item{L}{The L parameter in the van Genuchten (1980) model for unsaturated hydraulic conductivity (unitless)}
+}
 }
 \references{
-Schaap, M. G., Leij, F. J., & Van Genuchten, M. T. (2001). ROSETTA: a computer program
+Schaap, M. G., Leij, F. J., & van Genuchten, M. T. (2001). ROSETTA: a computer program
 for estimating soil hydraulic parameters with hierarchical pedotransfer functions.
-Journal of Hydrology, 251(3), 163–176. \url{https://doi.org/10.1016/S0022-1694(01)00466-8}
+Journal of Hydrology, 251(3), 163–176. \url{https://dx.doi.org/10.1016/S0022-1694(01)00466-8}
 }
 \keyword{datasets}
 
