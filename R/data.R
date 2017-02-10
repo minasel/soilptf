@@ -9,13 +9,14 @@
 #'   \item{log_n}{The (log10 of the) n parameter in the Mualem (1976) model (log unitless)}
 #'   \item{ln_Ks}{The (natural log of the) saturated conductivity (ln cm/day)}
 #'   \item{ln_K0}{The (natural log of the) K0 conductivity (ln cm/day)}
-#'   \item{L}{The L parameter in the van Genuchten (1980) model for unsaturated hydraulic conductivity (unitless)}
+#'   \item{L}{The L parameter in the van Genuchten (1980) model for unsaturated hydraulic conductivity
+#'   (unitless)}
 #' }
 #'
-#' @format A data frame with 84 rows and  5 variables.
+#' @format A data frame with 84 rows and 5 variables.
 #' \describe{
-#'   \item{TextureClass}{The name of the texture class (one of Clay, C loam, Loam, L Sand, Sand,
-#'         S C L, S Clay, Si C L, Si Clay, Si Loam, Silt, S loam)}
+#'   \item{TextureClass}{The name of the texture class (one of Cl, ClLo, Lo, LoSa, Sa, SaCl, SaClLo,
+#'     SaLo, Si, SiCl, SiClLo, or SiLo; see \link{texture.class})}
 #'   \item{N}{the number of observations on which the parameters are based}
 #'   \item{variable}{the variable of interest (one of theta_r, theta_s, log_alpha, log_n, ln_Ks, ln_K0, L)}
 #'   \item{value}{The value of the parameter.}
@@ -33,3 +34,19 @@
 
 # load within package so the data can be used internally
 data("rosettaSoilClass", envir=environment())
+
+
+#' Soil Texture Polygons for the 12 USDA Texture Classes
+#'
+#' @format A data frame with 58 rows and 4 variables.
+#' \describe{
+#'   \item{TextureClass}{The name of the texture class (one of Cl, ClLo, Lo, LoSa, Sa, SaCl, SaClLo,
+#'     SaLo, Si, SiCl, SiClLo, or SiLo; see \link{texture.class})}
+#'   \item{clay}{The proportion of clay (between 0 and 1)}
+#'   \item{silt}{The proportion of silt (between 0 and 1)}
+#'   \item{sand}{The proportion of sand (between 0 and 1)}
+#' }
+"TextureClassPolygonsUSDA"
+
+# load within package so the data can be used internally
+data("TextureClassPolygonsUSDA", envir=environment())

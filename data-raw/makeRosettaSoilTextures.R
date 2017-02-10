@@ -19,6 +19,9 @@ rosettaSoilClass <- cbind(reshape2::melt(vals, id.vars=c("TextureClass", "N")),
                           reshape2::melt(errs, id.vars=c("TextureClass", "N"),
                                          value.name="stdev")[-1:-3])
 
-rosettaSoilClass <- rosettaSoilClass[order(rosettaSoilClass$TextureClass, rosettaSoilClass$variable),]
+rownames(rosettaSoilClass) <- NULL
 
+# transform soil classes into more suitable abbreviations (uses texture.class from package)
+rosettaSoilClass$TextureClass <- texture.class(rosettaSoilClass$TextureClass)
+rosettaSoilClass <- rosettaSoilClass[order(rosettaSoilClass$TextureClass, rosettaSoilClass$variable),]
 devtools::use_data(rosettaSoilClass, overwrite = TRUE)
