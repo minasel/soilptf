@@ -53,6 +53,8 @@ testclasses <- function(n=100) {
     facet_wrap(~tclass)
 }
 
+unclassifiable <- data.frame(sand=2, silt=80, clay=18)
+
 devtools::use_data(TextureClassPolygonsUSDA, overwrite = TRUE)
 
 
