@@ -4,10 +4,10 @@
                  "Sa", "SaCl", "SaClLo", "SaLo",
                  "Si", "SiCl", "SiClLo", "SiLo")
 
-.sand <- "sand|sandy|(\\s+s\\s+)|(^s\\s+)|(\\s+s$)|(\\s+sa\\s+)|(^sa\\s+)|(\\sa+s$)"
-.silt <- "silt|silty|(\\s+si\\s+)|(^si\\s+)|(\\s+si$)"
-.clay <-"clay|clayey|(\\s+c\\s+)|(^c\\s+)|(\\s+c$)|((\\s+cl\\s+)|(^cl\\s+)|(\\s+cl$))"
-.loam <- "loam|loamy|(\\s+l\\s+)|(^l\\s+)|(\\s+l$)|(\\s+lo\\s+)|(^lo\\s+)|(\\s+lo$)"
+.sand <- "sand|sandy|sa|(\\s+s\\s+)|(^s\\s+)|(\\s+s$)|(\\s+sa\\s+)|(^sa\\s+)|(\\sa+s$)"
+.silt <- "silt|silty|si|(\\s+si\\s+)|(^si\\s+)|(\\s+si$)"
+.clay <- "clay|clayey|cl|(\\s+c\\s+)|(^c\\s+)|(\\s+c$)|((\\s+cl\\s+)|(^cl\\s+)|(\\s+cl$))"
+.loam <- "loam|loamy|lo|(\\s+l\\s+)|(^l\\s+)|(\\s+l$)|(\\s+lo\\s+)|(^lo\\s+)|(\\s+lo$)"
 
 #' Sanitize texture class descriptions
 #'
@@ -80,7 +80,29 @@ texture.class.factor <- function(x, ..., stringsAsFactors=TRUE, validate=TRUE) {
 #' @rdname texture.class
 #' @export
 texture.class.numeric <- function(x, clay, silt=NULL, ..., stringsAsFactors=TRUE, validate=TRUE) {
-  stop("Not implemented")
+  # creating df ensures 'proper' recycling of vectors
+  df <- data.frame(sand=x, clay=as.numeric(clay))
+  df$silt <- silt
+  if(any(c(df$sand, df$silt, df$clay) > 1.0)) {
+    df$sand <- df$sand / 100.0
+    df$clay <- df$clay / 100.0
+    if(!is.null(df$silt)) {
+      df$silt <- df$silt / 100.0
+    }
+  }
+
+  if(!is.null(df$silt) && any(abs(1.0 - df$sand - df$clay - df$silt) > 1e-7 )) {
+    stop("Sand+Silt+Clay must equal 1 or 100")
+  }
+
+  tc <- rep(NA, nrow(df))
+  # looping because there will only ever be 12 texture classes
+  for(tclass in .allclasses) {
+    polygon <- TextureClassPolygonsUSDA[TextureClassPolygonsUSDA$TextureClass==tclass,]
+    inclass <- point.in.polygon(df$sand, df$clay, polygon$sand, polygon$clay)
+    tc[is.na(tc) & inclass] <- tclass
+  }
+  return(texture.class(tc, stringsAsFactors = stringsAsFactors))
 }
 
 #' @rdname texture.class
@@ -96,13 +118,13 @@ texture.class.data.frame <- function(x, ..., stringsAsFactors=TRUE, validate=TRU
   if(length(claycols) == 0) stop("No column defining 'clay' was found")
   if(length(claycols) > 1) warning("More than one column defining 'clay' was found. Using '",
                                    claycols[1], "'")
-  claycol <- x[[claycol[1]]]
+  claycol <- x[[claycols[1]]]
   if(length(siltcols) > 1) warning("More than one column defining 'silt' was found. Using '",
                                    siltcols[1], "'")
   if(length(siltcols) == 0) {
     siltcol <- NULL
   } else {
-    siltcol <- x[[siltcol[1]]]
+    siltcol <- x[[siltcols[1]]]
   }
   texture.class.numeric(x=sandcol, clay=claycol, silt=siltcol, stringsAsFactors = stringsAsFactors,
                         validate = validate)

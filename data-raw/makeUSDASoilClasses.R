@@ -36,7 +36,22 @@ USDA_df <- plyr::ldply(USDA_verticies, function(item) {
 TextureClassPolygonsUSDA <- plyr::rename(USDA_df, c(.id="TextureClass", SAND="sand", CLAY="clay", SILT="silt"))
 TextureClassPolygonsUSDA$TextureClass <- texture.class(TextureClassPolygonsUSDA$TextureClass)
 # library(ggplot2)
-# ggplot(TextureClassPolygons, aes(sand, clay, fill=TextureClass)) + geom_polygon()
+# ggplot(TextureClassPolygonsUSDA, aes(sand, clay, fill=TextureClass)) + geom_polygon()
+
+testclasses <- function(n=100) {
+  testdf <- data.frame(sa=abs(rnorm(n)), si=abs(rnorm(n)), cl=abs(rnorm(n)))
+  testdf <- plyr::adply(testdf, .margins=1, .fun=function(row) {
+    total <- sum(row)
+    data.frame(sa=round(row$sa/total*100), si=round(row$si/total*100), cl=round(row$cl/total*100))
+  })
+  testdf$si <- 100 - testdf$sa - testdf$cl
+  testdf$tclass <- texture.class(testdf)
+  testdf <<- testdf
+  ggplot() +
+    geom_polygon(aes(sand*100, clay*100, fill=TextureClass), data=TextureClassPolygonsUSDA) +
+    geom_point(aes(sa, cl), data=testdf) +
+    facet_wrap(~tclass)
+}
 
 devtools::use_data(TextureClassPolygonsUSDA, overwrite = TRUE)
 
