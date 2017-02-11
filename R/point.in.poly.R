@@ -19,7 +19,7 @@ point.in.polygon <- function(x, y, poly.x, poly.y, threshold=1e-7) {
   p2y <- c(p1y[2:n], p1y[1])
 
   sapply(1:length(x), function(i) {
-    angsum <- sum(angle(x[i], y[i], p1x, p1y, p2x, p2y, threshold))
+    angsum <- sum(angle(x[i], y[i], p1x, p1y, p2x, p2y, threshold), na.rm = TRUE)
     return((abs(angsum - 2*pi) < threshold))
   })
 }

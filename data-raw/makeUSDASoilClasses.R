@@ -38,22 +38,31 @@ TextureClassPolygonsUSDA$TextureClass <- texture.class(TextureClassPolygonsUSDA$
 # library(ggplot2)
 # ggplot(TextureClassPolygonsUSDA, aes(sand, clay, fill=TextureClass)) + geom_polygon()
 
-testclasses <- function(n=100) {
+testclassescontinuous <- function(n=100) {
+  # continuous test
   testdf <- data.frame(sa=abs(rnorm(n)), si=abs(rnorm(n)), cl=abs(rnorm(n)))
   testdf <- plyr::adply(testdf, .margins=1, .fun=function(row) {
     total <- sum(row)
-    data.frame(sa=round(row$sa/total*100), si=round(row$si/total*100), cl=round(row$cl/total*100))
+    data.frame(sa=row$sa/total*100, si=row$si/total*100, cl=row$cl/total*100)
   })
   testdf$si <- 100 - testdf$sa - testdf$cl
   testdf$tclass <- texture.class(testdf)
-  testdf <<- testdf
   ggplot() +
     geom_polygon(aes(sand*100, clay*100, fill=TextureClass), data=TextureClassPolygonsUSDA) +
     geom_point(aes(sa, cl), data=testdf) +
     facet_wrap(~tclass)
 }
 
-unclassifiable <- data.frame(sand=2, silt=80, clay=18)
+testclassesdiscrete <- function() {
+  testdf <- expand.grid(sand=0:100, clay=0:100)
+  testdf$silt <- 100 - testdf$sand - testdf$clay
+  testdf <- testdf[testdf$silt >= 0,]
+  testdf$tclass <- texture.class(testdf)
+  ggplot() +
+    geom_polygon(aes(sand*100, clay*100, fill=TextureClass), data=TextureClassPolygonsUSDA) +
+    geom_point(aes(sand, clay), data=testdf) +
+    facet_wrap(~tclass)
+}
 
 devtools::use_data(TextureClassPolygonsUSDA, overwrite = TRUE)
 
