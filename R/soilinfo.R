@@ -58,5 +58,9 @@ soilinfo.rosetta <- function(textureclass, delog=TRUE, ranges=FALSE) {
     }
   }
   row.names(soilinfo) <- NULL
-  return(soilinfo)
+  # order columns predictably
+  colorder <- c("theta_r", "theta_s", "log_alpha", "alpha", "log_n", "n", "ln_Ks", "Ks",
+                "ln_K0", "K0", "L")
+  colorder <- c(colorder, paste0(colorder, "_min"), paste0(colorder, "_max"))
+  return(soilinfo[order(match(names(soilinfo), colorder))])
 }
